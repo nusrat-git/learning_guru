@@ -1,10 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { useForm } from "react-hook-form";
-import app from "../../firebase/firebaseConfig";
-import { getDatabase, ref, set, push, get } from "firebase/database";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/UserContext";
+import { GoogleAuthProvider } from "firebase/auth";
 
 const Login = () => {
   const {
@@ -13,17 +13,47 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data, e) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
+
+  const { signIn, setLoading, setUser, popUpSignIn } = useContext(AuthContext);
+
+  const handleSignIn = (data, e) => {
     e.preventDefault();
 
-    const db = getDatabase(app);
-    const newDocRef = push(ref(db, "learningGuru/users"));
-    set(newDocRef, data)
-      .then(() => {
-        alert("data saved successfully");
+    const { email, password } = data;
+
+    signIn(email, password)
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        navigate(from, { replace: true });
       })
       .catch((error) => {
-        alert("error: ", error.message);
+        console.log(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const googleProvider = new GoogleAuthProvider();
+
+  const handleGoogleSignIn = () => {
+    popUpSignIn(googleProvider)
+      .then((result) => {
+        const user = result.user;
+        if (user) {
+          navigate(from, { replace: true });
+        } else {
+          toast.error("Please log in");
+        }
+      })
+      .catch((error) => console.error(error))
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -75,7 +105,7 @@ const Login = () => {
               </h1>
               <form
                 className="space-y-4 md:space-y-6"
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(handleSignIn)}
               >
                 <div>
                   <label
@@ -151,14 +181,14 @@ const Login = () => {
                   </Link>
                 </p>
               </form>
-
               <div>
                 <h5 className="text-center font-bold">OR</h5>
-                <button className="w-96 mt-5 flex justify-center items-center">
+                <button
+                  className="w-96 mt-5 flex gap-3 justify-center items-center"
+                  onClick={handleGoogleSignIn}
+                >
                   <AiFillGoogleCircle />
-                  <Link className="mx-2 font-semibold text-white" to="/">
-                    Continue with Google{" "}
-                  </Link>
+                  <span>Continue with Google</span>
                 </button>
               </div>
             </div>

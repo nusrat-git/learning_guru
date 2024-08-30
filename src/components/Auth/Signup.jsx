@@ -12,14 +12,8 @@ const Signup = () => {
 
   const from = location.state?.from?.pathname || "/";
 
-  const {
-    popUpSignIn,
-    emailPasswordSignIn,
-    setLoading,
-    updateUserProfile,
-    photo,
-    name,
-  } = useContext(AuthContext);
+  const { popUpSignIn, emailPasswordSignIn, setLoading } =
+    useContext(AuthContext);
 
   const {
     register,
@@ -53,13 +47,11 @@ const Signup = () => {
     emailPasswordSignIn(email, password)
       .then((result) => {
         const user = result.user;
-        updateUserProfile(name, photo);
         if (user) {
           navigate(from, { replace: true });
         } else {
           toast.error("Please log in");
         }
-        console.log(user);
       })
       .catch((error) => console.error(error));
   };
