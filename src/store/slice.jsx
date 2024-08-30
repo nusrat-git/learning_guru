@@ -39,7 +39,7 @@ export const courseSlice = createSlice({
   initialState: {
     entities: [],
     courseDetails: null,
-    loading: false,
+    loading: true,
     searchQuery: "",
     syllabusToggle: false,
     preToggle: false,
@@ -48,10 +48,10 @@ export const courseSlice = createSlice({
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
     },
-    syllabusToggleDropdown: (state, action) => {
+    syllabusToggleDropdown: (state) => {
       state.syllabusToggle = !state.syllabusToggle;
     },
-    preToggleDropdown: (state, action) => {
+    preToggleDropdown: (state) => {
       state.preToggle = !state.preToggle;
     },
   },

@@ -8,6 +8,8 @@ import Dashboard from "../components/Dashboard/Dashboard";
 import Login from "../components/Auth/Login";
 import Auth from "../layouts/Auth";
 import Signup from "../components/Auth/Signup";
+import Enroll from "../components/Enrollment/Enroll";
+import PrivateRoute from "./PrivateRoute";
 
 const Routes = () => {
   const routes = createBrowserRouter([
@@ -31,10 +33,14 @@ const Routes = () => {
           path: "/dashboard",
           element: <Dashboard />,
         },
-        // {
-        //   path: "/login",
-        //   element: <Login />,
-        // },
+        {
+          path: "/enroll/:courseId",
+          element: (
+            <PrivateRoute>
+              <Enroll />
+            </PrivateRoute>
+          ),
+        },
       ],
     },
     {

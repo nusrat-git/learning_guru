@@ -1,13 +1,25 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { setSearchQuery } from "../../store/slice";
+import { checkAuthState, setToggle } from "../../store/authSlice";
+import UserProfileCard from "./UserProfileCard";
 
 const Topbar = () => {
   const dispatch = useDispatch();
 
   const handleSearchChange = (event) => {
     dispatch(setSearchQuery(event.target.value));
+  };
+
+  useEffect(() => {
+    dispatch(checkAuthState());
+  }, [dispatch]);
+
+  const { user, toggle } = useSelector((state) => state.auth);
+
+  const handleToggle = () => {
+    dispatch(setToggle());
   };
 
   return (
@@ -28,7 +40,7 @@ const Topbar = () => {
             </Link>
           </span>
         </div>
-        <div className="flex items-center gap-8 text-lg absolute right-0 px-10">
+        <div className="flex items-center gap-8 text-lg absolute right-0 px-10 pr-24">
           <div>
             <div className="max-w-md mx-auto">
               <div className="relative flex items-center w-full h-10 rounded-lg focus-within:shadow-lg bg-gray-500 overflow-hidden">
@@ -72,20 +84,38 @@ const Topbar = () => {
             >
               Courses
             </Link>
-            <Link
-              to="/dashboard"
-              className="font-semibold mt-4 lg:mt-0 text-white hover:text-yellow-100 mr-4"
-            >
-              Dashboard
-            </Link>
           </div>
           <div>
-            <Link
-              to="/login"
-              className="inline-block font-semibold px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-yellow-500 hover:bg-white mt-4 lg:mt-0"
-            >
-              Log in
-            </Link>
+            {user ? (
+              <div className="absolute top-0">
+                <div
+                  className="relative w-10 h-10 overflow-hidden rounded-full bg-gray-600 cursor-pointer"
+                  type="button"
+                  onClick={handleToggle}
+                >
+                  <svg
+                    className="absolute w-12 h-12 text-gray-400 -left-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+                <UserProfileCard user={user} toggle={toggle} />
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="inline-block font-semibold px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-yellow-500 hover:bg-white mt-4 lg:mt-0"
+              >
+                Log in
+              </Link>
+            )}
           </div>
         </div>
       </nav>

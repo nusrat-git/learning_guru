@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/UserContext";
+import { useDispatch } from "react-redux";
+import { signIn, popUpSignIn } from "../../store/authSlice";
 import { GoogleAuthProvider } from "firebase/auth";
+import { toast, Toaster } from "react-hot-toast";
 
 const Login = () => {
   const {
@@ -13,74 +14,42 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
   const from = location.state?.from?.pathname || "/";
-
-  const { signIn, setLoading, setUser, popUpSignIn } = useContext(AuthContext);
 
   const handleSignIn = (data, e) => {
     e.preventDefault();
 
     const { email, password } = data;
 
-    signIn(email, password)
-      .then((result) => {
-        const user = result.user;
-        setUser(user);
+    dispatch(signIn({ email, password }))
+      .unwrap()
+      .then(() => {
+        toast.success("Logged in successfully!");
         navigate(from, { replace: true });
       })
       .catch((error) => {
-        console.log(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
+        console.error("Sign in failed:", error.message);
+        toast.error(`Sign in failed: ${error.message}`);
       });
   };
-
-  const googleProvider = new GoogleAuthProvider();
 
   const handleGoogleSignIn = () => {
-    popUpSignIn(googleProvider)
-      .then((result) => {
-        const user = result.user;
-        if (user) {
-          navigate(from, { replace: true });
-        } else {
-          toast.error("Please log in");
-        }
+    const googleProvider = new GoogleAuthProvider();
+
+    dispatch(popUpSignIn(googleProvider))
+      .unwrap()
+      .then(() => {
+        toast.success("Logged in successfully!");
+        navigate(from, { replace: true });
       })
-      .catch((error) => console.error(error))
-      .finally(() => {
-        setLoading(false);
+      .catch((error) => {
+        console.error("Google sign in failed:", error.message);
+        toast.error(`Google sign in failed: ${error.message}`);
       });
   };
-
-  // const sendData = async (e) => {
-  //   e.preventDefault();
-
-  //   const db = getDatabase(app);
-  //   const newDocRef = push(ref(db, "learningGuru/courses"));
-  //   set(newDocRef, {})
-  //     .then(() => {
-  //       alert("data saved successfully");
-  //     })
-  //     .catch((error) => {
-  //       alert("error: ", error.message);
-  //     });
-  // };
-
-  // const fetchData = async () => {
-  //   const db = getDatabase(app);
-  //   const dbRef = ref(db, "learningGuru/users");
-  //   const snapshot = await get(dbRef);
-  //   if (snapshot.exists()) {
-  //     setFruitArray(Object.values(snapshot.val()));
-  //   } else {
-  //     alert("error");
-  //   }
-  // };
 
   return (
     <div>
@@ -195,6 +164,7 @@ const Login = () => {
           </div>
         </div>
       </section>
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };

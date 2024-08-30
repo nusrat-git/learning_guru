@@ -1,19 +1,21 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { GoogleAuthProvider } from "firebase/auth";
-import toast from "react-hot-toast";
-import { AuthContext } from "../../context/UserContext";
+import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import {
+  emailPasswordSignUp,
+  popUpSignIn,
+  updateUserProfile,
+} from "../../store/authSlice";
 
 const Signup = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
   const from = location.state?.from?.pathname || "/";
-
-  const { popUpSignIn, emailPasswordSignIn, setLoading } =
-    useContext(AuthContext);
 
   const {
     register,
@@ -24,36 +26,43 @@ const Signup = () => {
   const googleProvider = new GoogleAuthProvider();
 
   const handleGoogleSignIn = () => {
-    popUpSignIn(googleProvider)
-      .then((result) => {
-        const user = result.user;
-        if (user) {
-          navigate(from, { replace: true });
-        } else {
-          toast.error("Please log in");
-        }
+    dispatch(popUpSignIn(googleProvider))
+      .unwrap()
+      .then(() => {
+        toast.success("Logged in successfully!");
+        navigate(from, { replace: true });
       })
-      .catch((error) => console.error(error))
-      .finally(() => {
-        setLoading(false);
+      .catch((error) => {
+        console.error("Google sign-in failed:", error.message);
+        toast.error(`Google sign-in failed: ${error.message}`);
       });
   };
 
   const handleEmailPasswordSignIn = (data, e) => {
     e.preventDefault();
 
-    const { email, password } = data;
+    const { name, email, password } = data;
 
-    emailPasswordSignIn(email, password)
-      .then((result) => {
-        const user = result.user;
-        if (user) {
-          navigate(from, { replace: true });
-        } else {
-          toast.error("Please log in");
-        }
+    dispatch(emailPasswordSignUp({ email, password }))
+      .unwrap()
+      .then(() => {
+        dispatch(updateUserProfile({ name }))
+          .unwrap()
+          .then(() => {
+            toast.success("Profile updated successfully!");
+          })
+          .catch((error) => {
+            console.error("Profile update failed:", error.message);
+            toast.error(`Profile update failed: ${error.message}`);
+          });
+
+        toast.success("Signed up successfully!");
+        navigate(from, { replace: true });
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error("Email/password sign-up failed:", error.message);
+        toast.error(`Sign-up failed: ${error.message}`);
+      });
   };
 
   return (
@@ -80,6 +89,23 @@ const Signup = () => {
                 className="space-y-4 md:space-y-6"
                 onSubmit={handleSubmit(handleEmailPasswordSignIn)}
               >
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block mb-2 text-sm font-medium text-white"
+                  >
+                    Your name
+                  </label>
+                  <input
+                    type="name"
+                    name="name"
+                    id="name"
+                    className="border rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="John Doe"
+                    {...register("name", { required: true })}
+                  />
+                  {errors.name && <span>This field is required</span>}
+                </div>
                 <div>
                   <label
                     htmlFor="email"
@@ -162,6 +188,7 @@ const Signup = () => {
           </div>
         </div>
       </section>
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };
