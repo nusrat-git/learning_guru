@@ -5,9 +5,12 @@ const Course = ({ course }) => {
     <div className="grid grid-cols-4 gap-8 bg-slate-400 rounded-md p-5">
       <img src={course.thumbnail} alt="" className="rounded-xl col-span-1" />
       <div className="col-span-3">
-        <h1 className="font-bold mb-3 tracking-tight leading-none text-2xl text-white">
-          {course.name}
-        </h1>
+        <div className="flex items-center justify-between">
+          <h1 className="font-bold mb-3 tracking-tight leading-none text-2xl text-white">
+            {course.name}
+          </h1>
+          <button>Complete</button>
+        </div>
         <p className="mb-2 font-light text-gray-200 md:text-lg">
           <span className="font-semibold">Instructor:</span> {course.instructor}
         </p>
