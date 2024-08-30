@@ -10,9 +10,26 @@ export const fetchCourses = createAsyncThunk(
     const snapshot = await get(dbRef);
 
     if (snapshot.exists()) {
-      return Object.values(snapshot.val());
+      const data = snapshot.val();
+      return Object.entries(data).map(([key, value]) => ({ key, ...value }));
     } else {
       return [];
+    }
+  }
+);
+
+// Fetch course details based on id
+export const fetchCourseDetails = createAsyncThunk(
+  "courses/fetchCourseDetails",
+  async (courseId) => {
+    const db = getDatabase(app);
+    const dbRef = ref(db, `learningGuru/courses/${courseId}`);
+    const snapshot = await get(dbRef);
+
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return null;
     }
   }
 );
@@ -21,6 +38,7 @@ export const courseSlice = createSlice({
   name: "courses",
   initialState: {
     entities: [],
+    courseDetails: null,
     loading: false,
     searchQuery: "",
   },
@@ -45,6 +63,17 @@ export const courseSlice = createSlice({
       })
       .addCase(fetchCourses.rejected, (state) => {
         state.loading = false;
+      })
+      .addCase(fetchCourseDetails.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchCourseDetails.fulfilled, (state, action) => {
+        state.loading = false;
+        state.courseDetails = action.payload;
+      })
+      .addCase(fetchCourseDetails.rejected, (state) => {
+        state.loading = false;
+        state.courseDetails = null;
       });
   },
 });

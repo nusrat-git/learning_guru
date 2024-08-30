@@ -13,7 +13,7 @@ const Course = ({ course }) => {
           <div className="bg-black opacity-55 mt-2 px-4 py-1">
             by {course.instructor}
           </div>
-          <Link to="/details">
+          <Link to={`/courses/${course.key}`}>
             <button className="bg-black text-white px-4 py-2 mt-2 rounded-md font-bold text-sm">
               View Details
             </button>

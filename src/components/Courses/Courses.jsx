@@ -30,7 +30,7 @@ const Courses = ({ title }) => {
         {filteredCourses.length > 0 ? (
           <div>
             <h3 className="font-bold text-center text-2xl py-5">{title}</h3>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-6">
               {filteredCourses.map((course, i) => (
                 <Course course={course} key={i} />
               ))}

@@ -24,7 +24,7 @@ const Routes = () => {
           element: <Courses title={"All Courses"} />,
         },
         {
-          path: "/details",
+          path: "/courses/:courseId",
           element: <Details />,
         },
         {
