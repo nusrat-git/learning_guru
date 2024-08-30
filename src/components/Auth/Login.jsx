@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { useForm } from "react-hook-form";
@@ -40,8 +40,6 @@ const Login = () => {
   //       alert("error: ", error.message);
   //     });
   // };
-
-  // let [fruitArray, setFruitArray] = useState([]);
 
   // const fetchData = async () => {
   //   const db = getDatabase(app);

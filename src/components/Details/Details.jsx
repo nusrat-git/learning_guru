@@ -1,17 +1,32 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { fetchCourseDetails } from "../../store/slice";
+import {
+  fetchCourseDetails,
+  preToggleDropdown,
+  syllabusToggleDropdown,
+} from "../../store/slice";
+import Dropdown from "./Dropdown";
 
 const Details = () => {
   const { courseId } = useParams();
 
   const dispatch = useDispatch();
-  const { courseDetails, loading } = useSelector((state) => state.courses);
+  const { courseDetails, loading, syllabusToggle, preToggle } = useSelector(
+    (state) => state.courses
+  );
 
   useEffect(() => {
     dispatch(fetchCourseDetails(courseId));
   }, [dispatch, courseId]);
+
+  const handleSyllabusDropdown = () => {
+    dispatch(syllabusToggleDropdown());
+  };
+
+  const handlePreDropdown = () => {
+    dispatch(preToggleDropdown());
+  };
 
   if (loading || !courseDetails) {
     return <div className="text-center mt-4">Loading...</div>;
@@ -44,15 +59,27 @@ const Details = () => {
               <span className="font-semibold">Location:</span>{" "}
               {courseDetails.location}
             </p>
-            <p>prerequisites expandable</p>
-            <p>syllabus epandable</p>
+            <div className="grid grid-cols-2 gap-5 mb-5">
+              <Dropdown
+                dropdownData={courseDetails.syllabus}
+                title={"Syllabus"}
+                toggle={syllabusToggle}
+                handleDropdown={handleSyllabusDropdown}
+              />
+              <Dropdown
+                dropdownData={courseDetails.prerequisites}
+                title={"Pre-requisites"}
+                toggle={preToggle}
+                handleDropdown={handlePreDropdown}
+              />
+            </div>
 
             {courseDetails.enrollmentStatus === "Open" ? (
               <Link
                 to="/"
                 className="inline-flex items-center justify-center hover:px-5 py-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-gray-300 focus:ring-4"
               >
-                Enroll Now
+                Open, Enroll Now
                 <svg
                   className="w-5 h-5 ml-2 -mr-1"
                   fill="currentColor"

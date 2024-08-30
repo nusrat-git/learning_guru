@@ -41,10 +41,18 @@ export const courseSlice = createSlice({
     courseDetails: null,
     loading: false,
     searchQuery: "",
+    syllabusToggle: false,
+    preToggle: false,
   },
   reducers: {
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
+    },
+    syllabusToggleDropdown: (state, action) => {
+      state.syllabusToggle = !state.syllabusToggle;
+    },
+    preToggleDropdown: (state, action) => {
+      state.preToggle = !state.preToggle;
     },
   },
   extraReducers: (builder) => {
@@ -78,6 +86,7 @@ export const courseSlice = createSlice({
   },
 });
 
-export const { setSearchQuery } = courseSlice.actions;
+export const { setSearchQuery, syllabusToggleDropdown, preToggleDropdown } =
+  courseSlice.actions;
 
 export default courseSlice.reducer;
