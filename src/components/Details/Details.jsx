@@ -37,10 +37,10 @@ const Details = () => {
       <section className="">
         <div className="grid px-4 mx-20 gap-12 py-16 grid-cols-12">
           <div className="mr-auto place-self-center lg:col-span-6">
-            <h1 className="max-w-2xl mb-4 font-extrabold tracking-tight leading-none text-5xl dark:text-white">
+            <h1 className="max-w-2xl mb-4 font-extrabold tracking-tight leading-none text-5xl">
               {courseDetails.name}
             </h1>
-            <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
+            <p className="max-w-2xl mb-6 font-semibold text-gray-500 lg:mb-8 md:text-lg lg:text-xl">
               By {courseDetails.instructor}
             </p>
             <p className="max-w-2xl mb-6 font-light text-gray-200 lg:mb-7 md:text-xl">
@@ -77,9 +77,9 @@ const Details = () => {
             {courseDetails.enrollmentStatus === "Open" ? (
               <Link
                 to="/"
-                className="inline-flex items-center justify-center hover:px-5 py-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-gray-300 focus:ring-4"
+                className="inline-flex items-center justify-center hover:px-5 py-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-gray-300 focus:ring-4 underline hover:no-underline"
               >
-                Open, Enroll Now
+                Registration is Open, Enroll Now
                 <svg
                   className="w-5 h-5 ml-2 -mr-1"
                   fill="currentColor"
@@ -95,7 +95,9 @@ const Details = () => {
               </Link>
             ) : (
               <div className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                {courseDetails.enrollmentStatus}
+                {courseDetails.enrollmentStatus === "Closed"
+                  ? "Registration is closed"
+                  : courseDetails.enrollmentStatus}
               </div>
             )}
           </div>
