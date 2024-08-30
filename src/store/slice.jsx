@@ -22,8 +22,13 @@ export const courseSlice = createSlice({
   initialState: {
     entities: [],
     loading: false,
+    searchQuery: "",
   },
-  reducers: {},
+  reducers: {
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCourses.pending, (state) => {
@@ -44,7 +49,6 @@ export const courseSlice = createSlice({
   },
 });
 
-// export const { addToTodos, editTodos, removeFromTodos, changeTodoStatus } =
-//   courseSlice.actions;
+export const { setSearchQuery } = courseSlice.actions;
 
 export default courseSlice.reducer;

@@ -5,29 +5,38 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Courses = ({ title }) => {
   const dispatch = useDispatch();
-  const { entities, loading } = useSelector((state) => state.courses);
+  const { entities, loading, searchQuery } = useSelector(
+    (state) => state.courses
+  );
+
+  // Filter courses based on searchQuery
+  const filteredCourses = entities.filter((course) =>
+    course.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   useEffect(() => {
     dispatch(fetchCourses());
   }, [dispatch]);
 
+  if (loading) {
+    return <div className="text-center mt-4">Loading...</div>;
+  }
+
   return (
     <div>
       <div className="mx-20">
-        {loading ? (
-          <h4 className="text-center my-20">"loading..."</h4>
-        ) : entities.length > 0 ? (
+        {filteredCourses.length > 0 ? (
           <div>
             <h3 className="font-bold text-center text-2xl py-5">{title}</h3>
             <div className="grid grid-cols-3 gap-2">
-              {entities.map((course, i) => (
+              {filteredCourses.map((course, i) => (
                 <Course course={course} key={i} />
               ))}
             </div>
           </div>
         ) : (
           <h3 className="font-bold text-center text-2xl py-5">
-            No courses available
+            No courses found
           </h3>
         )}
       </div>

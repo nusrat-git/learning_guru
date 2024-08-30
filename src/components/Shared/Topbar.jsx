@@ -1,7 +1,15 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { setSearchQuery } from "../../store/slice";
 
 const Topbar = () => {
+  const dispatch = useDispatch();
+
+  const handleSearchChange = (event) => {
+    dispatch(setSearchQuery(event.target.value));
+  };
+
   return (
     <div>
       <nav className="flex items-center justify-between bg-black p-9 sticky top-0 z-20 w-[100vw]">
@@ -45,7 +53,8 @@ const Topbar = () => {
                   className="peer h-full w-full outline-none text-sm text-white pl-2"
                   type="text"
                   id="search"
-                  placeholder="Search recipes.."
+                  placeholder="Search courses..."
+                  onChange={handleSearchChange}
                 />
               </div>
             </div>
