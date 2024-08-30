@@ -9,9 +9,11 @@ const Courses = ({ title }) => {
     (state) => state.courses
   );
 
-  // Filter courses based on searchQuery
-  const filteredCourses = entities.filter((course) =>
-    course.name.toLowerCase().includes(searchQuery.toLowerCase())
+  // Filter courses based on searchQuery in both course name and instructor name
+  const filteredCourses = entities.filter(
+    (course) =>
+      course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      course.instructor.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   useEffect(() => {
