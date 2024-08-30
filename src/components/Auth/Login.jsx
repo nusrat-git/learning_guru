@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { useForm } from "react-hook-form";
-import app from "../../firebaseConfig";
+import app from "../../../.firebase/firebaseConfig";
 import { getDatabase, ref, set, push, get } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 
