@@ -5,7 +5,7 @@ import {
   fetchCourseDetails,
   preToggleDropdown,
   syllabusToggleDropdown,
-} from "../../store/slice";
+} from "../../store/courseSlice";
 import Dropdown from "./Dropdown";
 
 const Details = () => {

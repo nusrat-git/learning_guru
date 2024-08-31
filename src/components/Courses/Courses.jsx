@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import Course from "./Course";
-import { fetchCourses } from "../../store/slice";
+import { fetchCourses } from "../../store/courseSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
+import app from "../../firebase/firebaseConfig";
+import { getDatabase, push, ref, set } from "firebase/database";
 
 const Courses = ({ title }) => {
   const dispatch = useDispatch();
@@ -42,6 +45,7 @@ const Courses = ({ title }) => {
           </h3>
         )}
       </div>
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };

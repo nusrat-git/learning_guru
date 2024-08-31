@@ -31,7 +31,11 @@ const Routes = () => {
         },
         {
           path: "/dashboard",
-          element: <Dashboard />,
+          element: (
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/enroll/:courseId",

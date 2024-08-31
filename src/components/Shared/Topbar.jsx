@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { setSearchQuery } from "../../store/slice";
+import { setSearchQuery } from "../../store/courseSlice";
 import { checkAuthState, setToggle } from "../../store/authSlice";
 import UserProfileCard from "./UserProfileCard";
 

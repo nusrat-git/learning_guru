@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { fetchCourses } from "../../store/slice";
+import { fetchCourses } from "../../store/courseSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Course from "./Course";
 import { FaSpinner } from "react-icons/fa";
-import { SlCalender } from "react-icons/sl";
+import { FaRegHeart } from "react-icons/fa";
 import { IoCheckmarkDone } from "react-icons/io5";
+import { Toaster } from "react-hot-toast";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -37,8 +38,8 @@ const Dashboard = () => {
           {""}In Progress
         </div>
         <div className="flex items-center gap-2 cursor-pointer font-semibold">
-          <SlCalender />
-          {""}Upcoming
+          <FaRegHeart />
+          {""}Liked
         </div>
         <div className="flex items-center gap-2 cursor-pointer font-semibold">
           <IoCheckmarkDone />
@@ -62,6 +63,7 @@ const Dashboard = () => {
           )}
         </div>
       </div>
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };

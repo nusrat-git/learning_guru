@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import { fetchCourseDetails } from "../../store/slice";
-import { getDatabase, ref, get, update, push, set } from "firebase/database";
-import app from "../../firebase/firebaseConfig";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  fetchCourseDetails,
+  handleStudentEnroll,
+} from "../../store/courseSlice";
 import toast, { Toaster } from "react-hot-toast";
 
 const Enroll = () => {
@@ -17,25 +18,27 @@ const Enroll = () => {
   const { courseId } = useParams();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/courses";
+
   const { courseDetails, loading } = useSelector((state) => state.courses);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(fetchCourseDetails(courseId));
   }, [dispatch, courseId]);
 
-  const onSubmit = async (data) => {
-    const db = getDatabase(app);
-
-    const newDocRef = push(
-      ref(db, `learningGuru/courses/${courseId}/students`)
-    );
-
-    set(newDocRef, data)
+  const handleEnrollment = (data) => {
+    dispatch(handleStudentEnroll({ courseId, data }))
+      .unwrap()
       .then(() => {
         toast.success("Enrolled Successfully!");
+        navigate(from, { replace: true });
       })
       .catch((error) => {
-        toast.error(error.message);
+        console.error("Enrollment failed:", error);
+        toast.error("Enrollment failed: " + error);
       });
   };
 
@@ -69,7 +72,7 @@ const Enroll = () => {
               </h1>
               <form
                 className="space-y-4 md:space-y-6"
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(handleEnrollment)}
               >
                 <div>
                   <label
@@ -83,8 +86,9 @@ const Enroll = () => {
                     name="name"
                     id="name"
                     className="border rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="John Doe"
+                    defaultValue={user && user.displayName}
                     {...register("name", { required: true })}
+                    readOnly
                   />
                   {errors.name && <span>This field is required</span>}
                 </div>
@@ -100,8 +104,9 @@ const Enroll = () => {
                     name="email"
                     id="email"
                     className="border rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="name@company.com"
+                    defaultValue={user && user.email}
                     {...register("email", { required: true })}
+                    readOnly
                   />
                   {errors.email && <span>This field is required</span>}
                 </div>

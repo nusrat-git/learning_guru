@@ -36,13 +36,14 @@ const Dropdown = ({ dropdownData, title, toggle, handleDropdown }) => {
           className="py-2 text-sm text-gray-700"
           aria-labelledby="dropdownDefaultButton"
         >
-          {dropdownData.map((dd, i) => (
-            <li key={i}>
-              <p className="block px-4 py-2 hover:bg-gray-100 ">
-                {dd.topic ? dd.topic : dd}
-              </p>
-            </li>
-          ))}
+          {dropdownData.length > 0 &&
+            dropdownData.map((dd, i) => (
+              <li key={i}>
+                <p className="block px-4 py-2 hover:bg-gray-100 ">
+                  {dd.topic ? dd.topic : dd}
+                </p>
+              </li>
+            ))}
         </ul>
       </div>
     </div>

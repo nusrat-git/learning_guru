@@ -1,7 +1,41 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { handleCourseLike } from "../../store/courseSlice";
+import toast from "react-hot-toast";
 
 const Course = ({ course }) => {
+  const { key } = course;
+  const { user } = useSelector((state) => state.auth);
+
+  const courseId = key;
+  const email = user && user.email;
+
+  let liked = course.likers && course.likers.includes(email);
+  let likesCount = course.likesCount || course.likers?.length || 0;
+
+  const dispatch = useDispatch();
+
+  const handleLike = (like) => {
+    if (!user) {
+      toast.info("You need to be logged in to like a course.");
+      navigate("/login");
+      return;
+    }
+
+    dispatch(handleCourseLike({ courseId, email, like }))
+      .unwrap()
+      .then(() => {
+        toast.success(like ? "Course liked!" : "Course unliked!");
+      })
+      .catch((error) => {
+        console.error("Like failed:", error);
+        toast.error("Like failed: " + error);
+      });
+  };
+
   return (
     <div className="text-center">
       <div className="slide relative">
@@ -14,22 +48,33 @@ const Course = ({ course }) => {
             by {course.instructor}
           </div>
           <Link to={`/courses/${course.key}`}>
-            <button className="bg-black text-white px-4 py-2 mt-2 rounded-md font-bold text-sm">
+            <button className="bg-black relative z-10 text-white px-4 py-2 mt-2 rounded-md font-bold text-sm">
               View Details
             </button>
           </Link>
+          <div className="absolute top-0 left-0 right-0 flex items-center justify-center h-full">
+            {liked ? (
+              <div className="flex items-center gap-2 absolute bottom-4 right-4 text-xl ">
+                <FaHeart
+                  className="cursor-pointer text-red-500"
+                  type="button"
+                  onClick={() => handleLike(false)}
+                />
+                {likesCount}
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 absolute bottom-4 right-4 text-xl ">
+                <FaRegHeart
+                  className="cursor-pointer text-red-500"
+                  type="button"
+                  onClick={() => handleLike(true)}
+                />
+                {likesCount}
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      {/* <div className="flex flex-col gap-2 rounded-lg p-2">
-        <img
-          src={course.thumbnail}
-          height={400}
-          width={400}
-          alt=""
-          className="rounded-md h-40 w-full"
-        />
-        <h4 className="font-bold text-sm">{course.name}</h4>
-      </div> */}
     </div>
   );
 };
