@@ -179,19 +179,3 @@ export const handleCourseLike = createAsyncThunk(
     }
   }
 );
-
-export const fetchCourseLikers = createAsyncThunk(
-  "courses/fetchCourseLikers",
-  async (courseId, { rejectWithValue }) => {
-    const courseLikesRef = ref(db, `learningGuru/courses/${courseId}/likers`);
-
-    try {
-      const snapshot = await get(courseLikesRef);
-      const likers = snapshot.exists() ? snapshot.val() : [];
-      return { courseId, likers };
-    } catch (error) {
-      console.error("Fetching likers failed: " + error.message);
-      return rejectWithValue(error.message);
-    }
-  }
-);

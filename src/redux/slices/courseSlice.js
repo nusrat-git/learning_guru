@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchCourseDetails,
-  fetchCourseLikers,
   fetchCourses,
   fetchCoursesByEmail,
   handleCourseLike,
@@ -122,20 +121,6 @@ export const courseSlice = createSlice({
         }
       })
       .addCase(handleCourseLike.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(fetchCourseLikers.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchCourseLikers.fulfilled, (state, action) => {
-        state.loading = false;
-        const { courseId, likers } = action.payload;
-        const course = state.courses.find((course) => course.id === courseId);
-        if (course) {
-          course.likers = likers;
-        }
-      })
-      .addCase(fetchCourseLikers.rejected, (state) => {
         state.loading = false;
       });
   },
