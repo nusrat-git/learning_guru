@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { fetchCourses } from "../../redux/thunks/courseThunks";
+import { fetchCoursesByEmail } from "../../redux/thunks/courseThunks";
 import { useDispatch, useSelector } from "react-redux";
 import Course from "./Course";
 import { FaSpinner } from "react-icons/fa";
@@ -9,13 +9,14 @@ import { Toaster } from "react-hot-toast";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { courses, loading } = useSelector((state) => state.courses);
+  const { coursesByEmail, loading } = useSelector((state) => state.courses);
+  const { user } = useSelector((state) => state.auth);
 
   const active = true;
 
   useEffect(() => {
-    dispatch(fetchCourses());
-  }, [dispatch]);
+    dispatch(fetchCoursesByEmail(user?.email));
+  }, [dispatch, user?.email]);
 
   if (loading) {
     return <div className="text-center mt-4">Loading...</div>;
@@ -48,10 +49,10 @@ const Dashboard = () => {
       </div>
       <div>
         <div>
-          {courses.length > 0 ? (
+          {coursesByEmail.length > 0 ? (
             <div className="my-10">
               <div className="grid grid-cols-1 gap-10">
-                {courses.map((course, i) => (
+                {coursesByEmail.map((course, i) => (
                   <Course course={course} key={i} />
                 ))}
               </div>

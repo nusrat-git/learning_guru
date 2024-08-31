@@ -3,6 +3,7 @@ import {
   fetchCourseDetails,
   fetchCourseLikers,
   fetchCourses,
+  fetchCoursesByEmail,
   handleCourseLike,
   handleStudentEnroll,
   updateStudentCourseStatus,
@@ -12,6 +13,7 @@ export const courseSlice = createSlice({
   name: "courses",
   initialState: {
     courses: [],
+    coursesByEmail: [],
     courseId: null,
     courseDetails: null,
     loading: true,
@@ -50,6 +52,16 @@ export const courseSlice = createSlice({
       .addCase(fetchCourses.rejected, (state) => {
         state.loading = false;
       })
+      .addCase(fetchCoursesByEmail.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchCoursesByEmail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.coursesByEmail = action.payload;
+      })
+      .addCase(fetchCoursesByEmail.rejected, (state) => {
+        state.loading = false;
+      })
       .addCase(fetchCourseDetails.pending, (state) => {
         state.loading = true;
       })
@@ -76,11 +88,20 @@ export const courseSlice = createSlice({
         state.loading = false;
       })
       .addCase(updateStudentCourseStatus.pending, (state) => {
-        state.loading = true;
+        state.loading = false;
       })
       .addCase(updateStudentCourseStatus.fulfilled, (state, action) => {
         state.loading = false;
-        console.log(action);
+        const { courseId, email, status } = action.payload;
+        const course = state.courses.find((course) => course?.key === courseId);
+        if (course) {
+          const student = course.students.find(
+            (student) => student.email === email
+          );
+          if (student) {
+            student.status = status;
+          }
+        }
       })
       .addCase(updateStudentCourseStatus.rejected, (state, action) => {
         state.loading = false;

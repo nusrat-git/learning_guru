@@ -7,20 +7,12 @@ const Course = ({ course }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  function getKeyByEmail(students, targetEmail) {
-    for (let key in students) {
-      if (students[key].email === targetEmail) {
-        return key;
-      }
-    }
-    return null;
-  }
-
   const courseId = course?.key;
-  const studentId = getKeyByEmail(course?.students, user?.email);
+  const studentId = course?.studentKey;
+  const email = user?.email;
 
   const handleComplete = () => {
-    dispatch(updateStudentCourseStatus({ courseId, studentId }))
+    dispatch(updateStudentCourseStatus({ courseId, studentId, email }))
       .unwrap()
       .then((response) => {
         toast.success("Course Completed");
@@ -29,6 +21,7 @@ const Course = ({ course }) => {
         console.error("Update failed:", error);
       });
   };
+
   return (
     <div className="grid grid-cols-4 gap-8 bg-slate-400 rounded-md p-5">
       <img src={course.thumbnail} alt="" className="rounded-xl col-span-1" />

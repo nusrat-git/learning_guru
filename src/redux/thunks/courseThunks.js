@@ -19,6 +19,43 @@ export const fetchCourses = createAsyncThunk(
   }
 );
 
+export const fetchCoursesByEmail = createAsyncThunk(
+  "courses/fetchCoursesByEmail",
+  async (userEmail) => {
+    const dbRef = ref(db, "learningGuru/courses");
+    const snapshot = await get(dbRef);
+
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      const courses = Object.entries(data).map(([key, value]) => ({
+        key,
+        ...value,
+      }));
+
+      const coursesByEmail = courses
+        .filter((course) => {
+          const studentsArray = Object.values(course?.students || {});
+          return studentsArray.some((student) => student.email === userEmail);
+        })
+        .map((course) => {
+          const studentsArray = Object.entries(course?.students || {});
+          const [studentKey, student] = studentsArray.find(
+            ([, student]) => student.email === userEmail
+          ) || [null, {}];
+
+          const { students, ...rest } = course;
+          const completeStatus = student?.status || null;
+
+          return { ...rest, completeStatus, studentKey };
+        });
+
+      return coursesByEmail;
+    } else {
+      return [];
+    }
+  }
+);
+
 // Fetch course details based on id
 export const fetchCourseDetails = createAsyncThunk(
   "courses/fetchCourseDetails",
@@ -38,7 +75,7 @@ export const fetchCourseDetails = createAsyncThunk(
 // Update student course status based on id
 export const updateStudentCourseStatus = createAsyncThunk(
   "courses/updateStudentCourseStatus",
-  async ({ courseId, studentId }, { rejectWithValue }) => {
+  async ({ courseId, studentId, email }, { rejectWithValue }) => {
     const studentRef = ref(
       db,
       `learningGuru/courses/${courseId}/students/${studentId}`
@@ -49,7 +86,7 @@ export const updateStudentCourseStatus = createAsyncThunk(
         status: "Completed",
       });
 
-      return { courseId, studentId, status: "Completed" };
+      return { courseId, email, status: "Completed" };
     } catch (error) {
       console.error("Error updating student course status: ", error.message);
       return rejectWithValue(error.message);
@@ -68,10 +105,21 @@ export const handleStudentEnroll = createAsyncThunk(
     };
 
     try {
-      const newDocRef = push(
-        ref(db, `learningGuru/courses/${courseId}/students`)
+      const courseRef = ref(db, `learningGuru/courses/${courseId}/students`);
+
+      const snapshot = await get(courseRef);
+      const currentStudents = snapshot.exists() ? snapshot.val() : [];
+
+      const studentsArray = Object.values(currentStudents);
+      const studentAlreadyEnrolled = studentsArray.some(
+        (student) => student.email === data.email
       );
 
+      if (studentAlreadyEnrolled) {
+        return rejectWithValue("Student is already enrolled in this course.");
+      }
+
+      const newDocRef = push(courseRef);
       await set(newDocRef, newData);
 
       return { courseId, newData };
