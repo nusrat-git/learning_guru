@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-const Courses = ({ title }) => {
+const Courses = ({ title, limit }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,9 +29,14 @@ const Courses = ({ title }) => {
       course?.instructor?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // limit how many courses to display
+  const displayedCourses = limit
+    ? filteredCourses.slice(0, limit && limit)
+    : filteredCourses;
+
   const handleLike = (like, courseId) => {
     if (!user) {
-      toast.info("You need to be logged in to like a course.");
+      toast.error("You need to be logged in to like a course.");
       navigate("/login");
       return;
     }
@@ -54,11 +59,11 @@ const Courses = ({ title }) => {
   return (
     <div>
       <div className="mx-20">
-        {filteredCourses?.length > 0 ? (
+        {displayedCourses?.length > 0 ? (
           <div>
             <h3 className="font-bold text-center text-2xl py-5">{title}</h3>
             <div className="grid grid-cols-3 gap-6">
-              {filteredCourses?.map((course, i) => (
+              {displayedCourses?.map((course, i) => (
                 <Course
                   course={course}
                   key={i}

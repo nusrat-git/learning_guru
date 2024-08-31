@@ -19,6 +19,8 @@ export default function Carousel() {
     dispatch(fetchCourses());
   }, [dispatch]);
 
+  const displayedCourses = courses.slice(0, 10);
+
   if (loading) {
     return <div className="text-center mt-4">Loading...</div>;
   }
@@ -29,7 +31,7 @@ export default function Carousel() {
         Our top 10 courses of the week
       </h3>
       <div id="slider-container" className="slider mx-20">
-        {courses.map((item, index) => (
+        {displayedCourses.map((item, index) => (
           <div className="slide relative" key={index}>
             <img src={item.thumbnail} alt="" className="w-full h-auto" />
             <div className="absolute top-0 left-0 right-0 flex items-center justify-center h-full">

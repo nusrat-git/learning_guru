@@ -6,13 +6,27 @@ const db = getDatabase(app);
 
 export const fetchCourses = createAsyncThunk(
   "courses/fetchCourses",
-  async () => {
+  async (limit = null) => {
     const dbRef = ref(db, "learningGuru/courses");
     const snapshot = await get(dbRef);
 
     if (snapshot.exists()) {
       const data = snapshot.val();
-      return Object.entries(data).map(([key, value]) => ({ key, ...value }));
+      // Convert the data to an array of courses with their keys
+      const coursesArray = Object.entries(data).map(([key, value]) => ({
+        key,
+        ...value,
+      }));
+
+      const sortedCourses = coursesArray.sort(
+        (a, b) => (b.likers?.length || 0) - (a.likers?.length || 0)
+      );
+
+      if (limit) {
+        return sortedCourses.slice(0, limit);
+      }
+
+      return sortedCourses;
     } else {
       return [];
     }
