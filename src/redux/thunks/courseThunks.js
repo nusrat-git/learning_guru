@@ -64,8 +64,9 @@ export const fetchCoursesByEmail = createAsyncThunk(
 
           const { students, ...rest } = course;
           const completeStatus = student?.status || null;
+          const enrollDate = student?.enrollDate || null;
 
-          return { ...rest, completeStatus, studentKey };
+          return { ...rest, completeStatus, studentKey, enrollDate };
         })
         .filter((course) => {
           if (filterParam === "liked") {

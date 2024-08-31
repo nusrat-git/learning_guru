@@ -15,6 +15,18 @@ const Course = ({ course }) => {
   const studentId = course?.studentKey;
   const email = user?.email;
 
+  function getFormattedEndDate(enrollmentDateStr, courseDurationStr) {
+    const enrollmentDate = new Date(enrollmentDateStr);
+    const numberOfWeeks = parseInt(courseDurationStr.split(" ")[0], 10);
+    const courseDurationInDays = numberOfWeeks * 7;
+
+    const endDate = new Date(enrollmentDate);
+    endDate.setDate(enrollmentDate.getDate() + courseDurationInDays);
+
+    const options = { day: "numeric", month: "long", year: "numeric" };
+    return endDate.toLocaleDateString("en-GB", options);
+  }
+
   const handleComplete = () => {
     dispatch(updateStudentCourseStatus({ courseId, studentId, email }))
       .unwrap()
@@ -43,7 +55,8 @@ const Course = ({ course }) => {
           <span className="font-semibold">Instructor:</span> {course.instructor}
         </p>
         <p className="mb-2 font-light text-gray-200 md:text-lg">
-          <span className="font-semibold">Due:</span> 4 weeks
+          <span className="font-semibold">Due date:</span>{" "}
+          {getFormattedEndDate(course?.enrollDate, course?.duration)}
         </p>
         <div>
           <div className="flex justify-between mb-1">
