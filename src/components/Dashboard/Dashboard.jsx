@@ -20,11 +20,11 @@ const Dashboard = () => {
   }, [dispatch, email]);
 
   return (
-    <div className="mx-56">
+    <div className="mx-5 md:mx-20 lg:mx-56">
       <h3 className="font-bold text-center text-2xl py-5">
         Welcome to your dashboard
       </h3>
-      <div className="bg-gray-600 mt-6 rounded-md flex gap-6 p-3">
+      <div className="bg-gray-600 mt-6 rounded-md flex justify-center items-center md:justify-start gap-4 p-3">
         <div
           className={`flex items-center gap-2 cursor-pointer ${
             activeDashboard === "in_progress"

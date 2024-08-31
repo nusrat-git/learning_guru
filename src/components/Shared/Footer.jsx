@@ -9,7 +9,7 @@ const Footer = () => {
           <div className="sm:flex sm:items-center sm:justify-between">
             <Link
               to="/"
-              className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
+              className="flex items-center justify-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
             >
               <img
                 src="/public/logo.png"
@@ -20,7 +20,7 @@ const Footer = () => {
                 Learning guru
               </span>
             </Link>
-            <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+            <ul className="flex flex-wrap justify-center items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
               <li>
                 <Link to="/" className="hover:underline me-4 md:me-6">
                   About
@@ -44,7 +44,7 @@ const Footer = () => {
             </ul>
           </div>
           <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-          <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+          <span className="flex items-center justify-center gap-2 mx-auto text-sm sm:text-center text-gray-400">
             © 2024{" "}
             <Link to="/" className="hover:underline">
               Learning Guru

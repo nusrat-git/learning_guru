@@ -58,11 +58,11 @@ const Courses = ({ title, limit }) => {
 
   return (
     <div>
-      <div className="mx-20">
+      <div className="mx-5 md:mx-10 lg:mx-20">
         {displayedCourses?.length > 0 ? (
           <div>
             <h3 className="font-bold text-center text-2xl py-5">{title}</h3>
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {displayedCourses?.map((course, i) => (
                 <Course
                   course={course}

@@ -107,59 +107,14 @@ button:focus-visible {
   transition: 0.25s ease-in-out;
 }
 
-.control-prev-btn,
-.control-next-btn {
-  position: absolute;
-  top: 38%;
-  background-color: rgba(12, 12, 12, 0.55);
-  height: 100px;
-  width: 45px;
-  text-align: center;
-  box-shadow: 0 1px 3px #111111;
-  user-select: none;
-  color: #999696;
-  cursor: pointer;
-  z-index: 10;
-}
-
-.control-prev-btn::before {
-  content: "\21D0";
-  font-size: 24px;
-  font-weight: 600;
-  position: relative;
-  top: 27%;
-}
-
-.control-next-btn::before {
-  content: "\21D2";
-  font-size: 24px;
-  font-weight: 600;
-  position: relative;
-  top: 27%;
-}
-
-.control-prev-btn {
-  left: 0;
-}
-
-.control-next-btn {
-  right: 0;
-}
-
-@media only screen and (max-width: 420px) {
+@media only screen and (max-width: 600px) {
   .slider {
     padding: 0;
+    gap: 20px;
   }
-  .slide {
-    padding: 16px 10px;
-  }
+
   .slide img {
     margin: 0;
-  }
-  .control-prev-btn {
-    top: 37%;
-  }
-  .control-next-btn {
-    top: 37%;
+    width: 300px;
   }
 }

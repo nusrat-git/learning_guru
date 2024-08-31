@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchCourses } from "../../redux/thunks/courseThunks";
+import { IoMdArrowDropleftCircle } from "react-icons/io";
+import { IoMdArrowDroprightCircle } from "react-icons/io";
 
 export default function Carousel() {
   function prev() {
@@ -30,28 +32,37 @@ export default function Carousel() {
       <h3 className="font-bold text-center text-2xl py-5">
         Our top 10 courses of the week
       </h3>
-      <div id="slider-container" className="slider mx-20">
+      <div
+        id="slider-container"
+        className="slider relative mx-5 md:mx-12 lg:mx-20"
+      >
         {displayedCourses.map((item, index) => (
           <div className="slide relative" key={index}>
-            <img src={item.thumbnail} alt="" className="w-full h-auto" />
+            <img
+              src={item.thumbnail}
+              alt=""
+              className="w-10 md:w-full md:h-auto"
+            />
             <div className="absolute top-0 left-0 right-0 flex items-center justify-center h-full">
-              <div className="absolute bottom-14 right-4 text-white text-lg font-bold px-4 py-2 bg-black opacity-55 rounded-md">
+              <div className="absolute bottom-16 right-5 lg:bottom-14 lg:right-4 text-white text-lg font-bold px-4 py-2 bg-black opacity-55 rounded-md">
                 {item.name}
               </div>
 
               <Link to={`/courses/${item.key}`}>
-                <button className="absolute bottom-4 right-4 bg-black text-white px-4 py-2 rounded-md font-bold text-sm">
+                <button className="absolute bottom-6 right-5 lg:bottom-4 lg:right-4 bg-black text-white px-4 py-2 rounded-md font-bold text-sm">
                   View Details
                 </button>
               </Link>
             </div>
           </div>
         ))}
-        <div onClick={prev} className="control-prev-btn">
-          <i className="fas fa-arrow-left"></i>
+      </div>
+      <div className="absolute top-72 flex justify-between w-screen px-2 md:pr-4">
+        <div onClick={prev} className="text-6xl">
+          <IoMdArrowDropleftCircle />
         </div>
-        <div onClick={next} className="control-next-btn">
-          <i className="fas fa-arrow-right"></i>
+        <div onClick={next} className="text-6xl">
+          <IoMdArrowDroprightCircle />
         </div>
       </div>
     </div>

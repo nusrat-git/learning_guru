@@ -45,9 +45,9 @@ const Course = ({ course }) => {
   };
 
   return (
-    <div className="grid grid-cols-4 gap-8 bg-slate-400 rounded-md p-5">
+    <div className="md:grid grid-cols-4 gap-8 bg-slate-400 rounded-md p-5">
       <img src={course.thumbnail} alt="" className="rounded-xl col-span-1" />
-      <div className="col-span-3">
+      <div className="mt-5 md:mt-0 col-span-3">
         <div className="flex items-center justify-between">
           <h1 className="font-bold mb-3 tracking-tight leading-none text-2xl text-white">
             {course.name}

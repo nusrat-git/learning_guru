@@ -68,7 +68,7 @@ const Signup = () => {
   return (
     <div>
       <section className="bg-gray-900">
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
           <Link
             to="/"
             className="flex items-center mb-6 text-2xl font-semibold text-white"
@@ -177,7 +177,7 @@ const Signup = () => {
               <div>
                 <h5 className="text-center font-bold">OR</h5>
                 <button
-                  className="w-96 mt-5 flex gap-3 justify-center items-center"
+                  className="w-full md:w-96 mt-5 flex gap-3 justify-center items-center"
                   onClick={handleGoogleSignIn}
                 >
                   <AiFillGoogleCircle />

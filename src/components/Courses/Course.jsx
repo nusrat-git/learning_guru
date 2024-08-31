@@ -9,8 +9,12 @@ const Course = ({ course, handleLike, email }) => {
 
   return (
     <div className="text-center">
-      <div className="slide relative">
-        <img src={course.thumbnail} alt="" className="w-full h-auto" />
+      <div className="relative">
+        <img
+          src={course.thumbnail}
+          alt=""
+          className="w-full h-auto rounded-xl"
+        />
         <div className="absolute top-0 left-0 right-0 flex flex-col items-center justify-center h-full">
           <div className="text-white text-lg font-bold px-4 py-2 bg-black opacity-55 rounded-md">
             {course.name} <br />
@@ -23,7 +27,7 @@ const Course = ({ course, handleLike, email }) => {
               View Details
             </button>
           </Link>
-          <div className="absolute top-0 left-0 right-0 flex items-center justify-center h-full">
+          <div className="absolute -top-2 left-0 right-1 md:top-0 md:right-0 flex items-center justify-center h-full">
             {liked ? (
               <div className="flex items-center gap-2 absolute bottom-4 right-4 text-xl ">
                 <FaHeart
