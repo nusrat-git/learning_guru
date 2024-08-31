@@ -32,9 +32,7 @@ const Topbar = () => {
           <Link>
             <img
               src="/public/logo.png"
-              width={140}
-              height={140}
-              className="relative top-3 -left-4 md:-left-0 md:top-6 rounded-full w-20"
+              className="relative top-3 -left-4 md:-left-0 md:top-6 rounded-full w-20 md:w-32"
             />
           </Link>
           <span className="font-bold font-serif italic md:text-2xl tracking-tight -ml-4 z-10">
@@ -93,7 +91,7 @@ const Topbar = () => {
                 >
                   Log in
                 </Link>
-                <div className="absolute top-0">
+                <div className="lg:hidden absolute top-0">
                   <UserProfileCard
                     user={user}
                     toggle={toggle}
