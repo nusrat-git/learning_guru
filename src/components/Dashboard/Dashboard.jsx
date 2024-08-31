@@ -9,7 +9,7 @@ import { Toaster } from "react-hot-toast";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { entities, loading } = useSelector((state) => state.courses);
+  const { courses, loading } = useSelector((state) => state.courses);
 
   const active = true;
 
@@ -48,10 +48,10 @@ const Dashboard = () => {
       </div>
       <div>
         <div>
-          {entities.length > 0 ? (
+          {courses.length > 0 ? (
             <div className="my-10">
               <div className="grid grid-cols-1 gap-10">
-                {entities.map((course, i) => (
+                {courses.map((course, i) => (
                   <Course course={course} key={i} />
                 ))}
               </div>

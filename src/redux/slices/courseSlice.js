@@ -11,7 +11,8 @@ import {
 export const courseSlice = createSlice({
   name: "courses",
   initialState: {
-    entities: [],
+    courses: [],
+    courseId: null,
     courseDetails: null,
     loading: true,
     searchQuery: "",
@@ -21,6 +22,9 @@ export const courseSlice = createSlice({
   reducers: {
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
+    },
+    setCourseId: (state, action) => {
+      state.courseId = action.payload;
     },
     syllabusToggleDropdown: (state) => {
       state.syllabusToggle = !state.syllabusToggle;
@@ -36,11 +40,11 @@ export const courseSlice = createSlice({
       })
       .addCase(fetchCourses.fulfilled, (state, action) => {
         state.loading = false;
-        const newEntities = action.payload;
-        const existingIds = new Set(state.entities.map((course) => course.id));
-        state.entities = [
-          ...state.entities,
-          ...newEntities.filter((course) => !existingIds.has(course.id)),
+        const newcourses = action.payload;
+        const existingIds = new Set(state.courses.map((course) => course.id));
+        state.courses = [
+          ...state.courses,
+          ...newcourses.filter((course) => !existingIds.has(course.id)),
         ];
       })
       .addCase(fetchCourses.rejected, (state) => {
@@ -63,7 +67,7 @@ export const courseSlice = createSlice({
       .addCase(handleStudentEnroll.fulfilled, (state, action) => {
         state.loading = false;
         const { courseId, data } = action.payload;
-        const course = state.entities.find((course) => course.id === courseId);
+        const course = state.courses.find((course) => course.id === courseId);
         if (course) {
           course.students = [...(course.students || []), data];
         }
@@ -87,11 +91,10 @@ export const courseSlice = createSlice({
       })
       .addCase(handleCourseLike.fulfilled, (state, action) => {
         state.loading = false;
-        const { courseId, likers, likesCount } = action.payload;
-        const course = state.entities.find((course) => course.id === courseId);
+        const { courseId, likers } = action.payload;
+        const course = state.courses.find((course) => course?.key === courseId);
         if (course) {
           course.likers = likers;
-          course.likesCount = likesCount; // Update the likes count
         }
       })
       .addCase(handleCourseLike.rejected, (state) => {
@@ -103,10 +106,9 @@ export const courseSlice = createSlice({
       .addCase(fetchCourseLikers.fulfilled, (state, action) => {
         state.loading = false;
         const { courseId, likers } = action.payload;
-        const course = state.entities.find((course) => course.id === courseId);
+        const course = state.courses.find((course) => course.id === courseId);
         if (course) {
           course.likers = likers;
-          course.likersCount = likers.length;
         }
       })
       .addCase(fetchCourseLikers.rejected, (state) => {
@@ -115,7 +117,11 @@ export const courseSlice = createSlice({
   },
 });
 
-export const { setSearchQuery, syllabusToggleDropdown, preToggleDropdown } =
-  courseSlice.actions;
+export const {
+  setSearchQuery,
+  setCourseId,
+  syllabusToggleDropdown,
+  preToggleDropdown,
+} = courseSlice.actions;
 
 export default courseSlice.reducer;

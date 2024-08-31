@@ -2,39 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { handleCourseLike } from "../../redux/thunks/courseThunks";
-import toast from "react-hot-toast";
 
-const Course = ({ course }) => {
-  const { key } = course;
-  const { user } = useSelector((state) => state.auth);
-
-  const courseId = key;
-  const email = user && user.email;
-
-  let liked = course.likers && course.likers.includes(email);
-  let likesCount = course.likesCount || course.likers?.length || 0;
-
-  const dispatch = useDispatch();
-
-  const handleLike = (like) => {
-    if (!user) {
-      toast.info("You need to be logged in to like a course.");
-      navigate("/login");
-      return;
-    }
-
-    dispatch(handleCourseLike({ courseId, email, like }))
-      .unwrap()
-      .then(() => {
-        toast.success(like ? "Course liked!" : "Course unliked!");
-      })
-      .catch((error) => {
-        console.error("Like failed:", error);
-        toast.error("Like failed: " + error);
-      });
-  };
+const Course = ({ course, handleLike, email }) => {
+  const liked = course.likers && course.likers.includes(email);
+  const likesCount = course.likers?.length || 0;
 
   return (
     <div className="text-center">
@@ -58,7 +29,7 @@ const Course = ({ course }) => {
                 <FaHeart
                   className="cursor-pointer text-red-500"
                   type="button"
-                  onClick={() => handleLike(false)}
+                  onClick={() => handleLike(false, course?.key, course)}
                 />
                 {likesCount}
               </div>
@@ -67,7 +38,7 @@ const Course = ({ course }) => {
                 <FaRegHeart
                   className="cursor-pointer text-red-500"
                   type="button"
-                  onClick={() => handleLike(true)}
+                  onClick={() => handleLike(true, course?.key, course)}
                 />
                 {likesCount}
               </div>

@@ -57,6 +57,7 @@ export const updateStudentCourseStatus = createAsyncThunk(
   }
 );
 
+// send student data based on course id
 export const handleStudentEnroll = createAsyncThunk(
   "courses/handleStudentEnroll",
   async ({ courseId, data }, { rejectWithValue }) => {
@@ -85,8 +86,6 @@ export const handleStudentEnroll = createAsyncThunk(
 export const handleCourseLike = createAsyncThunk(
   "courses/handleCourseLike",
   async ({ courseId, email, like }, { rejectWithValue }) => {
-    console.log(courseId, email, like);
-
     try {
       const courseLikesRef = ref(db, `learningGuru/courses/${courseId}/likers`);
 
@@ -111,7 +110,7 @@ export const handleCourseLike = createAsyncThunk(
 
       await set(courseLikesRef, likers);
 
-      return { courseId, likers, likesCount: likers.length };
+      return { courseId, likers };
     } catch (error) {
       console.error("Like handling failed: " + error.message);
       return rejectWithValue(error.message);
