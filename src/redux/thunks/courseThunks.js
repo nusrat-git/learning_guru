@@ -2,10 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getDatabase, ref, set, push, get, update } from "firebase/database";
 import app from "../../firebase/firebaseConfig";
 
+const db = getDatabase(app);
+
 export const fetchCourses = createAsyncThunk(
   "courses/fetchCourses",
   async () => {
-    const db = getDatabase(app);
     const dbRef = ref(db, "learningGuru/courses");
     const snapshot = await get(dbRef);
 
@@ -22,7 +23,6 @@ export const fetchCourses = createAsyncThunk(
 export const fetchCourseDetails = createAsyncThunk(
   "courses/fetchCourseDetails",
   async (courseId) => {
-    const db = getDatabase(app);
     const dbRef = ref(db, `learningGuru/courses/${courseId}`);
     const snapshot = await get(dbRef);
 
@@ -39,7 +39,6 @@ export const fetchCourseDetails = createAsyncThunk(
 export const updateStudentCourseStatus = createAsyncThunk(
   "courses/updateStudentCourseStatus",
   async ({ courseId, studentId }, { rejectWithValue }) => {
-    const db = getDatabase(app);
     const studentRef = ref(
       db,
       `learningGuru/courses/${courseId}/students/${studentId}`
@@ -61,8 +60,6 @@ export const updateStudentCourseStatus = createAsyncThunk(
 export const handleStudentEnroll = createAsyncThunk(
   "courses/handleStudentEnroll",
   async ({ courseId, data }, { rejectWithValue }) => {
-    const db = getDatabase(app);
-
     const newData = {
       ...data,
       status: "In progress",
@@ -88,8 +85,6 @@ export const handleStudentEnroll = createAsyncThunk(
 export const handleCourseLike = createAsyncThunk(
   "courses/handleCourseLike",
   async ({ courseId, email, like }, { rejectWithValue }) => {
-    const db = getDatabase(app);
-
     console.log(courseId, email, like);
 
     try {
@@ -127,7 +122,6 @@ export const handleCourseLike = createAsyncThunk(
 export const fetchCourseLikers = createAsyncThunk(
   "courses/fetchCourseLikers",
   async (courseId, { rejectWithValue }) => {
-    const db = getDatabase(app);
     const courseLikesRef = ref(db, `learningGuru/courses/${courseId}/likers`);
 
     try {
