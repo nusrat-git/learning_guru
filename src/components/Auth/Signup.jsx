@@ -9,7 +9,7 @@ import {
   emailPasswordSignUp,
   popUpSignIn,
   updateUserProfile,
-} from "../../store/authSlice";
+} from "../../redux/thunks/authThunks";
 
 const Signup = () => {
   const dispatch = useDispatch();

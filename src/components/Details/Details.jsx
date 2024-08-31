@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import {
-  fetchCourseDetails,
   preToggleDropdown,
   syllabusToggleDropdown,
-} from "../../store/courseSlice";
+} from "../../redux/slices/courseSlice";
+import { fetchCourseDetails } from "../../redux/thunks/courseThunks";
 import Dropdown from "./Dropdown";
 
 const Details = () => {

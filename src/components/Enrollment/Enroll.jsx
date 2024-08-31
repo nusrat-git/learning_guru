@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   fetchCourseDetails,
   handleStudentEnroll,
-} from "../../store/courseSlice";
+} from "../../redux/thunks/courseThunks";
 import toast, { Toaster } from "react-hot-toast";
 
 const Enroll = () => {

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { logOut } from "../../store/authSlice";
+import { logOut } from "../../redux/thunks/authThunks";
 import { Link } from "react-router-dom";
 
 const UserProfileCard = ({ user, toggle }) => {

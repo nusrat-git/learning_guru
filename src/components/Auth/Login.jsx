@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { signIn, popUpSignIn } from "../../store/authSlice";
+import { signIn, popUpSignIn } from "../../redux/thunks/authThunks";
+
 import { GoogleAuthProvider } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
 

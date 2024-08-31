@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { setSearchQuery } from "../../store/courseSlice";
-import { checkAuthState, setToggle } from "../../store/authSlice";
+import { setSearchQuery } from "../../redux/slices/courseSlice";
+import { checkAuthState } from "../../redux/thunks/authThunks";
+import { setToggle } from "../../redux/slices/authSlice";
 import UserProfileCard from "./UserProfileCard";
 
 const Topbar = () => {

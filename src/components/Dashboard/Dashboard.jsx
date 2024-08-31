@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { fetchCourses } from "../../store/courseSlice";
+import { fetchCourses } from "../../redux/thunks/courseThunks";
 import { useDispatch, useSelector } from "react-redux";
 import Course from "./Course";
 import { FaSpinner } from "react-icons/fa";

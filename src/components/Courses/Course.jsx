@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { handleCourseLike } from "../../store/courseSlice";
+import { handleCourseLike } from "../../redux/thunks/courseThunks";
 import toast from "react-hot-toast";
 
 const Course = ({ course }) => {

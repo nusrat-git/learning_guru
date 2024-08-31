@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Course from "./Course";
-import { fetchCourses } from "../../store/courseSlice";
+import { fetchCourses } from "../../redux/thunks/courseThunks";
 import { useDispatch, useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import app from "../../firebase/firebaseConfig";

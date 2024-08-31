@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchCourses } from "../../store/courseSlice";
+import { fetchCourses } from "../../redux/thunks/courseThunks";
 
 export default function Carousel() {
   function prev() {

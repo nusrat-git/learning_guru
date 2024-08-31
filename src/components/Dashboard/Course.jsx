@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateStudentCourseStatus } from "../../store/courseSlice";
+import { updateStudentCourseStatus } from "../../redux/thunks/courseThunks";
 import toast from "react-hot-toast";
 
 const Course = ({ course }) => {
