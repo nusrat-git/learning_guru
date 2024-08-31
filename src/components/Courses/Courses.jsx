@@ -25,8 +25,8 @@ const Courses = ({ title }) => {
   // Filter courses based on searchQuery in both course name and instructor name
   const filteredCourses = courses?.filter(
     (course) =>
-      course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      course.instructor.toLowerCase().includes(searchQuery.toLowerCase())
+      course?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      course?.instructor?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleLike = (like, courseId) => {

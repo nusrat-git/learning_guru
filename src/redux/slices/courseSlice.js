@@ -20,6 +20,7 @@ export const courseSlice = createSlice({
     searchQuery: "",
     syllabusToggle: false,
     preToggle: false,
+    activeDashboard: "in_progress",
   },
   reducers: {
     setSearchQuery: (state, action) => {
@@ -57,7 +58,9 @@ export const courseSlice = createSlice({
       })
       .addCase(fetchCoursesByEmail.fulfilled, (state, action) => {
         state.loading = false;
-        state.coursesByEmail = action.payload;
+        const { coursesByEmail, active } = action.payload;
+        state.coursesByEmail = coursesByEmail;
+        state.activeDashboard = active;
       })
       .addCase(fetchCoursesByEmail.rejected, (state) => {
         state.loading = false;

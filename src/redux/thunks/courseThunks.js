@@ -19,9 +19,10 @@ export const fetchCourses = createAsyncThunk(
   }
 );
 
+// fetch courses by user email
 export const fetchCoursesByEmail = createAsyncThunk(
   "courses/fetchCoursesByEmail",
-  async (userEmail) => {
+  async ({ email, filterParam = "in_progress" }) => {
     const dbRef = ref(db, "learningGuru/courses");
     const snapshot = await get(dbRef);
 
@@ -34,22 +35,35 @@ export const fetchCoursesByEmail = createAsyncThunk(
 
       const coursesByEmail = courses
         .filter((course) => {
+          if (filterParam === "liked") {
+            return true;
+          }
+
           const studentsArray = Object.values(course?.students || {});
-          return studentsArray.some((student) => student.email === userEmail);
+          return studentsArray.some((student) => student.email === email);
         })
         .map((course) => {
           const studentsArray = Object.entries(course?.students || {});
           const [studentKey, student] = studentsArray.find(
-            ([, student]) => student.email === userEmail
+            ([, student]) => student.email === email
           ) || [null, {}];
 
           const { students, ...rest } = course;
           const completeStatus = student?.status || null;
 
           return { ...rest, completeStatus, studentKey };
+        })
+        .filter((course) => {
+          if (filterParam === "liked") {
+            return course.likers?.includes(email);
+          } else if (filterParam === "completed") {
+            return course.completeStatus === "Completed";
+          }
+
+          return course.completeStatus !== "Completed";
         });
 
-      return coursesByEmail;
+      return { coursesByEmail, active: filterParam };
     } else {
       return [];
     }

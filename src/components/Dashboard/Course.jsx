@@ -1,10 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateStudentCourseStatus } from "../../redux/thunks/courseThunks";
+import {
+  fetchCoursesByEmail,
+  updateStudentCourseStatus,
+} from "../../redux/thunks/courseThunks";
 import toast from "react-hot-toast";
 
 const Course = ({ course }) => {
   const { user } = useSelector((state) => state.auth);
+  const { loading } = useSelector((state) => state.courses);
   const dispatch = useDispatch();
 
   const courseId = course?.key;
@@ -15,7 +19,10 @@ const Course = ({ course }) => {
     dispatch(updateStudentCourseStatus({ courseId, studentId, email }))
       .unwrap()
       .then((response) => {
-        toast.success("Course Completed");
+        dispatch(fetchCoursesByEmail({ email }));
+        if (!loading) {
+          toast.success("Course Completed");
+        }
       })
       .catch((error) => {
         console.error("Update failed:", error);

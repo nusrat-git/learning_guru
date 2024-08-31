@@ -9,18 +9,15 @@ import { Toaster } from "react-hot-toast";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { coursesByEmail, loading } = useSelector((state) => state.courses);
+  const { coursesByEmail, activeDashboard, loading } = useSelector(
+    (state) => state.courses
+  );
   const { user } = useSelector((state) => state.auth);
-
-  const active = true;
+  const email = user?.email;
 
   useEffect(() => {
-    dispatch(fetchCoursesByEmail(user?.email));
-  }, [dispatch, user?.email]);
-
-  if (loading) {
-    return <div className="text-center mt-4">Loading...</div>;
-  }
+    dispatch(fetchCoursesByEmail({ email }));
+  }, [dispatch, email]);
 
   return (
     <div className="mx-56">
@@ -30,26 +27,51 @@ const Dashboard = () => {
       <div className="bg-gray-600 mt-6 rounded-md flex gap-6 p-3">
         <div
           className={`flex items-center gap-2 cursor-pointer ${
-            active
+            activeDashboard === "in_progress"
               ? "font-bold bg-gray-50 text-blue-800 py-2 px-4 rounded-md"
               : "fontsemibold"
           }`}
+          onClick={() => {
+            dispatch(fetchCoursesByEmail({ email }));
+          }}
         >
           <FaSpinner />
           {""}In Progress
         </div>
-        <div className="flex items-center gap-2 cursor-pointer font-semibold">
+        <div
+          className={`flex items-center gap-2 cursor-pointer ${
+            activeDashboard === "liked"
+              ? "font-bold bg-gray-50 text-blue-800 py-2 px-4 rounded-md"
+              : "fontsemibold"
+          }`}
+          type="button"
+          onClick={() => {
+            dispatch(fetchCoursesByEmail({ email, filterParam: "liked" }));
+          }}
+        >
           <FaRegHeart />
           {""}Liked
         </div>
-        <div className="flex items-center gap-2 cursor-pointer font-semibold">
+        <div
+          className={`flex items-center gap-2 cursor-pointer ${
+            activeDashboard === "completed"
+              ? "font-bold bg-gray-50 text-blue-800 py-2 px-4 rounded-md"
+              : "fontsemibold"
+          }`}
+          type="button"
+          onClick={() => {
+            dispatch(fetchCoursesByEmail({ email, filterParam: "completed" }));
+          }}
+        >
           <IoCheckmarkDone />
           {""}Completed
         </div>
       </div>
       <div>
         <div>
-          {coursesByEmail.length > 0 ? (
+          {loading ? (
+            <div className="text-center mt-5">Loading...</div>
+          ) : coursesByEmail.length > 0 ? (
             <div className="my-10">
               <div className="grid grid-cols-1 gap-10">
                 {coursesByEmail.map((course, i) => (
