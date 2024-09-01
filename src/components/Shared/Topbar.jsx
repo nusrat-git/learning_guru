@@ -25,8 +25,8 @@ const Topbar = () => {
   };
 
   return (
-    <div>
-      <nav className="flex items-center justify-between bg-black p-9 sticky top-0 z-20 w-[100vw]">
+    <div className="mb-16">
+      <nav className="flex items-center justify-between bg-black p-9 fixed top-0 z-20 w-[100vw]">
         <div className="flex items-center text-white mr-6 absolute">
           <Link>
             <img
