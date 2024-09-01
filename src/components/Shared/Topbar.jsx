@@ -31,7 +31,7 @@ const Topbar = () => {
         <div className="flex items-center text-white mr-6 absolute">
           <Link>
             <img
-              src="/public/logo.png"
+              src="/logo.png"
               className="relative top-3 -left-4 md:-left-0 md:top-6 rounded-full w-20 md:w-32"
             />
           </Link>
