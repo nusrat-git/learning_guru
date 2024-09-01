@@ -68,7 +68,7 @@ const UserProfileCard = ({
         <ul className="py-2 text-sm text-gray-200">
           <li>
             <Link
-              to="/Home"
+              to="/"
               className="block lg:hidden px-4 py-2 hover:bg-gray-600 hover:text-white"
             >
               Home

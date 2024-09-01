@@ -10,13 +10,9 @@ const Course = ({ course, handleLike, email }) => {
   return (
     <div className="text-center">
       <div className="relative">
-        <img
-          src={course.thumbnail}
-          alt=""
-          className="w-full h-auto rounded-xl"
-        />
+        <img src={course.thumbnail} alt="" className="w-full rounded-xl h-72" />
         <div className="absolute top-0 left-0 right-0 flex flex-col items-center justify-center h-full">
-          <div className="text-white text-lg font-bold px-4 py-2 bg-black opacity-55 rounded-md">
+          <div className=" max-w-72 text-white text-lg font-bold px-4 py-2 bg-black opacity-55 rounded-md">
             {course.name} <br />
           </div>
           <div className="bg-black opacity-55 mt-2 px-4 py-1">
