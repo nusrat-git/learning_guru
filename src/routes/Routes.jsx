@@ -10,6 +10,7 @@ import Auth from "../layouts/Auth";
 import Signup from "../components/Auth/Signup";
 import Enroll from "../components/Enrollment/Enroll";
 import PrivateRoute from "./PrivateRoute";
+import NotFound from "../components/NotFound/NotFound";
 
 const Routes = () => {
   const routes = createBrowserRouter([
@@ -66,6 +67,10 @@ const Routes = () => {
           ),
         },
       ],
+    },
+    {
+      path: "*",
+      element: <NotFound />,
     },
   ]);
   return (
