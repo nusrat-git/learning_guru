@@ -11,7 +11,6 @@ const Topbar = () => {
   const dispatch = useDispatch();
 
   const handleSearchChange = (event) => {
-    console.log("here");
     dispatch(setSearchQuery(event.target.value));
   };
 

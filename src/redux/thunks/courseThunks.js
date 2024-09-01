@@ -58,7 +58,8 @@ export const fetchCoursesByEmail = createAsyncThunk(
         })
         .map((course) => {
           const studentsArray = Object.entries(course?.students || {});
-          const [studentKey, student] = studentsArray.find(
+
+          const [studentKey, student] = studentsArray?.find(
             ([, student]) => student.email === email
           ) || [null, {}];
 

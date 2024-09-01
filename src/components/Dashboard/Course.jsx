@@ -8,7 +8,6 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 const Course = ({ course }) => {
-  console.log(course);
   const { user } = useSelector((state) => state.auth);
   const { loading } = useSelector((state) => state.courses);
   const dispatch = useDispatch();
