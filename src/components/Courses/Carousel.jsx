@@ -58,10 +58,10 @@ export default function Carousel() {
         ))}
       </div>
       <div className="absolute top-72 flex justify-between w-screen px-2 md:pr-4">
-        <div onClick={prev} className="text-6xl">
+        <div onClick={prev} className="text-6xl cursor-pointer">
           <IoMdArrowDropleftCircle />
         </div>
-        <div onClick={next} className="text-6xl">
+        <div onClick={next} className="text-6xl cursor-pointer">
           <IoMdArrowDroprightCircle />
         </div>
       </div>
