@@ -95,9 +95,11 @@ export const courseSlice = createSlice({
       .addCase(updateStudentCourseStatus.fulfilled, (state, action) => {
         state.loading = false;
         const { courseId, email, status } = action.payload;
-        const course = state.courses.find((course) => course?.key === courseId);
+        const course = state?.courses?.find(
+          (course) => course?.key === courseId
+        );
         if (course) {
-          const student = course.students.find(
+          const student = course?.students?.find(
             (student) => student.email === email
           );
           if (student) {
