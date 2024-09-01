@@ -5,6 +5,13 @@ This project is a React application built using Vite. It includes essential tool
 **Live site: https://learning-guru.web.app/**
 **Github repo: https://github.com/nusrat-git/learning_guru**
 
+**Instructions to use the app**
+
+    ```
+        - You have to login to acces the dashboard, like a course and to enroll in a course
+        - When login if you don't have an account you need to register
+    ```
+
 ## Getting Started
 
 To run this project locally, you'll need to have Node.js installed on your machine. If you don't have it installed, you can download it from [nodejs.org](https://nodejs.org/).
