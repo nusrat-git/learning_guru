@@ -9,7 +9,7 @@ const Home = () => {
     <div>
       <Carousel />
       <div className="my-20">
-        <Courses title={"Explore our courses"} limit={3} />
+        <Courses title={"Explore our courses"} limit={4} />
         <div className=" w-fit mx-auto">
           <Link to="/courses">
             <button className="font-bold flex mx-auto my-5 text-white">
